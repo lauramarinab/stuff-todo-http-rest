@@ -1,0 +1,17 @@
+version: "3.1"
+
+services:
+  db:
+    image: postgres:9.6.8
+    container_name: todo_db
+    ports:
+      - "1234:5432"
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pguser
+      POSTGRES_DB: todo
+    volumes:
+      - todo-db-data:/var/lib/postgresql/data
+
+volumes:
+  todo-db-data:
