@@ -15,7 +15,7 @@ export const TODO_BY_ID = `
 `;
 
 export const CREATE_TODO = `
-  insert into todo (description, user_id)
+  insert into todo.todo (description, user_id)
   values ($1, $2)
   returning *
 `;
