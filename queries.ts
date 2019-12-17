@@ -1,5 +1,5 @@
 export const LIST_TODO_QUERY = `
-  select t.id, t.description, t.trash, t.completed, c."name" as category_name, u."name" as user_name
+  select t.id, t.description, t.trash, t.completed, t.creation_date, c."name" as category_name, u."name" as user_name
   from todo.todo t
   left join todo.category c on t.category_id = c.id
   join todo."user" u on t.user_id = u.id

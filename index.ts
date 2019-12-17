@@ -13,6 +13,7 @@ import {
   DELETE_ALL_TRASHED_TODOS,
   UPDATE_TODO
 } from "./queries";
+import { orderBy } from "lodash";
 
 const app = express();
 const port = 3001;
@@ -31,7 +32,7 @@ app.get("/todo", async (req: Request, res: Response) => {
 
   try {
     const queryResult = await pool.query(LIST_TODO_QUERY, [isTrashed]);
-    res.status(200).send(queryResult.rows);
+    res.status(200).send(orderBy(queryResult.rows, "creation_date", "desc"));
   } catch (err) {
     throw err;
   }
