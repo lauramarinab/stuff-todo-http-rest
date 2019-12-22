@@ -1,4 +1,4 @@
-create schema if not exists todo;
+-- create schema if not exists todo;
 
 create table category (
   id serial primary key,

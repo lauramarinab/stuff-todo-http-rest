@@ -11,7 +11,8 @@ import {
   CREATE_TODO,
   DELETE_TODO,
   DELETE_ALL_TRASHED_TODOS,
-  UPDATE_TODO
+  UPDATE_TODO,
+  LIST_CATEGORY
 } from "./queries";
 import { orderBy } from "lodash";
 
@@ -26,13 +27,14 @@ app.get("/hello/:name", (req: Request, res: Response) => {
   res.send(`Hello World, ${req.params.name}!`);
 });
 
+// TODO!
 // all todos
 app.get("/todo", async (req: Request, res: Response) => {
   const isTrashed = req.query.trash === "true";
 
   try {
     const queryResult = await pool.query(LIST_TODO_QUERY, [isTrashed]);
-    res.status(200).send(orderBy(queryResult.rows, "creation_date", "desc"));
+    res.status(200).send(orderBy(queryResult.rows, "id", "desc"));
   } catch (err) {
     throw err;
   }
@@ -110,6 +112,18 @@ app.delete("/todo/:id?", async (req: Request, res: Response) => {
     } catch (err) {
       throw err;
     }
+  }
+});
+
+// CATEGORY
+// all category
+app.get("/category", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await pool.query(LIST_CATEGORY);
+    console.log(queryResult);
+    res.status(200).send(queryResult.rows);
+  } catch (err) {
+    throw err;
   }
 });
 
