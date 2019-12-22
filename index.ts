@@ -12,7 +12,8 @@ import {
   DELETE_TODO,
   DELETE_ALL_TRASHED_TODOS,
   UPDATE_TODO,
-  LIST_CATEGORY
+  LIST_CATEGORY,
+  CREATE_CATEGORY
 } from "./queries";
 import { orderBy } from "lodash";
 
@@ -57,9 +58,10 @@ app.post("/todo", middleware(schemas.addTodo), async (req: Request, res: Respons
   const { body } = req;
 
   const userId = body.userId ? body.userId : "1";
+  const categoryId = body.categoryId ? body.categoryId : 1;
 
   try {
-    const queryResult = await pool.query(CREATE_TODO, [body.description, userId]);
+    const queryResult = await pool.query(CREATE_TODO, [body.description, categoryId, userId]);
     res.status(201).send(queryResult.rows[0]);
   } catch (err) {
     throw err;
@@ -120,8 +122,19 @@ app.delete("/todo/:id?", async (req: Request, res: Response) => {
 app.get("/category", async (req: Request, res: Response) => {
   try {
     const queryResult = await pool.query(LIST_CATEGORY);
-    console.log(queryResult);
-    res.status(200).send(queryResult.rows);
+    res.status(200).send(orderBy(queryResult.rows, "name"));
+  } catch (err) {
+    throw err;
+  }
+});
+
+// add category
+app.post("/category", middleware(schemas.addCategory), async (req: Request, res: Response) => {
+  const { body } = req;
+
+  try {
+    const queryResult = await pool.query(CREATE_CATEGORY, [body.name]);
+    res.status(201).send(queryResult.rows[0]);
   } catch (err) {
     throw err;
   }

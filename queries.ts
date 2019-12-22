@@ -15,8 +15,8 @@ export const TODO_BY_ID = `
 `;
 
 export const CREATE_TODO = `
-  insert into todo.todo (description, user_id)
-  values ($1, $2)
+  insert into todo.todo (description, category_id, user_id)
+  values ($1, $2, $3)
   returning *
 `;
 
@@ -33,6 +33,12 @@ export const DELETE_ALL_TRASHED_TODOS = `
 export const UPDATE_TODO = (updateParams: string) => `update todo.todo ${updateParams}`;
 
 export const LIST_CATEGORY = `
-  select c.id, c."name" as category_name
+  select c.id, c."name"
   from todo.category c;
+`;
+
+export const CREATE_CATEGORY = `
+  insert into todo.category ("name")
+  values ($1)
+  returning *
 `;
