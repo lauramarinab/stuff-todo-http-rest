@@ -11,7 +11,7 @@ export interface Schema {
 export const schemas: Schema = {
   addTodo: joi.object().keys({
     description: joi.string().required(),
-    categoryId: joi.number(),
+    categoryId: joi.number().allow(null),
     userId: joi.number()
   }),
   updateTodo: joi.object().keys({

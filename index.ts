@@ -57,8 +57,8 @@ app.get("/todo/:id", async (req: Request, res: Response) => {
 app.post("/todo", middleware(schemas.addTodo), async (req: Request, res: Response) => {
   const { body } = req;
 
-  const userId = body.userId ? body.userId : "1";
-  const categoryId = body.categoryId ? body.categoryId : 1;
+  const userId = body.userId || "1";
+  const categoryId = body.categoryId || 1;
 
   try {
     const queryResult = await pool.query(CREATE_TODO, [body.description, categoryId, userId]);
