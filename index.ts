@@ -13,7 +13,8 @@ import {
   DELETE_ALL_TRASHED_TODOS,
   UPDATE_TODO,
   LIST_CATEGORY,
-  CREATE_CATEGORY
+  CREATE_CATEGORY,
+  LIST_TODO_BY_CATEGORY_ID
 } from "./queries";
 import { orderBy } from "lodash";
 
@@ -47,6 +48,18 @@ app.get("/todo/:id", async (req: Request, res: Response) => {
 
   try {
     const queryResult = await pool.query(TODO_BY_ID, [todoId]);
+    res.status(200).send(queryResult.rows);
+  } catch (err) {
+    throw err;
+  }
+});
+
+// todo by category
+app.get("/todo/category/:id", async (req: Request, res: Response) => {
+  const categoryId = req.params.id;
+
+  try {
+    const queryResult = await pool.query(LIST_TODO_BY_CATEGORY_ID, [categoryId]);
     res.status(200).send(queryResult.rows);
   } catch (err) {
     throw err;

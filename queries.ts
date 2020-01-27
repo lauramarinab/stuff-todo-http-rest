@@ -42,3 +42,11 @@ export const CREATE_CATEGORY = `
   values ($1)
   returning *
 `;
+
+export const LIST_TODO_BY_CATEGORY_ID = ` 
+  select t.id, t.description, t.trash, t.completed, c."name" as category_name, u."name" as user_name
+  from todo.todo t
+  join todo.category c on t.category_id = c.id
+  join todo."user" u on t.user_id = u.id
+  where c.id = $1
+`;
